@@ -2,5 +2,15 @@
 name = "laxlang"
 version = "0.1.0"
 edition = "2024"
+authors = ["Ladoxer <ladoxer@gmail.com>"]
+description = "A TypeScript-inspired language for MEAN stack developers"
+homepage = "https://github.com/Ladoxer/laxlang"
+repository = "https://github.com/Ladoxer/laxlang"
+license = "MIT"
 
 [dependencies]
+serde = { version = "1.0", features = ["derive"] }
+clap = { version = "4.0", features = ["derive"] }
+lalrpop = "0.20"
+colored = "2.0"
+
