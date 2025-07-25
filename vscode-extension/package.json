@@ -1,44 +1,36 @@
 {
-  "name": "laxlang",
-  "displayName": "laxlang",
-  "description": "Language support for LaxLang - a TypeScript-inspired language for MEAN stack developers.",
+  "name": "laxlang-vscode",
+  "displayName": "LaxLang",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.102.0"
+    "vscode": "^1.74.0"
   },
-  "categories": [
-    "Programming Languages"
+  "activationEvents": [
+    "onLanguage:laxlang"
   ],
   "main": "./out/extension.js",
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "package": "vsce package"
-  },
   "contributes": {
     "languages": [
       {
         "id": "laxlang",
-        "aliases": [
-          "laxlang",
-          "laxlang"
-        ],
         "extensions": [
           ".lax"
-        ],
-        "configuration": "./language-configuration.json"
+        ]
       }
     ],
-    "grammars": [
+    "commands": [
       {
-        "language": "laxlang",
-        "scopeName": "",
-        "path": "./syntaxes/laxlang.tmLanguage.json"
+        "command": "laxlang.compile",
+        "title": "Compile LaxLang"
       }
     ]
   },
+  "scripts": {
+    "compile": "tsc -p ./"
+  },
   "devDependencies": {
+    "@types/node": "^24.1.0",
+    "child_process": "^1.0.2",
     "typescript": "^5.0.0",
     "vsce": "^2.15.0",
     "vscode": "^1.1.37"

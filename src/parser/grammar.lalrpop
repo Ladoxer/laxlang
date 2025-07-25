@@ -1,0 +1,46 @@
+// Top-level entry
+pub Program: Program = { <stmts:Stmt*> => Program(stmts) };
+
+Stmt: Stmt = {
+    <d:Decl> ";"          => Stmt::Decl(d),
+    <e:Expr> ";"          => Stmt::Expr(e),
+};
+
+// -- Features -------------------
+Decl: Decl = {
+    // relax function
+    "relax" "function" <id:Ident> "(" <ps:ParamList> ")" <b:Block>
+        => Decl::RelaxFn(id, ps, b),
+
+    // normal function
+    "function" <id:Ident> "(" <ps:ParamList> ")" ":" <t:Type> <b:Block>
+        => Decl::Fn(id, ps, t, b),
+};
+
+Expr: Expr = {
+    // flow chain
+    "flow" <id:Ident> "(" <ps:ParamList> ")" "{" <ops:FlowOps+> "}" <c:Catch>
+        => Expr::FlowChain(id, ps, ops, c),
+
+    // default path
+    <p:Primary> => p,
+};
+
+// flow-chain operators
+FlowOps: Vec<FlowOp> = {
+    <os:FlowOp+> => os,
+};
+
+FlowOp: FlowOp = {
+    <e:Expr> "~>" <id:Ident>            => FlowOp::Bind(Box::new(e), id),
+    <e1:Expr> "~>" <e2:Expr>            => FlowOp::Map(Box::new(e1), Box::new(e2)),
+};
+
+// error section
+Catch: Vec<Handler> = {
+    "catch" <hs:Handler+> => hs,
+    => vec![]
+};
+Handler: Handler = {
+    "|" <id:Ident> "->" <e:Expr> => Handler(id,e),
+};

@@ -9,8 +9,13 @@ repository = "https://github.com/Ladoxer/laxlang"
 license = "MIT"
 
 [dependencies]
-serde = { version = "1.0", features = ["derive"] }
-clap = { version = "4.0", features = ["derive"] }
-lalrpop = "0.20"
+lalrpop = "0.22"        # parser generator[1][33]
+regex   = "1.10"
+logos   = "0.13"        # optional; hand-rolled lexer OK
+serde   = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
 colored = "2.0"
+tower-lsp = "0.20"      # Language Server scaffold[3][27][38]
+notify = "6.1"          # Live-reload file-watcher
+ts-rs  = "11"           # Rust→TS bindings for Smart Imports[34][37]
 

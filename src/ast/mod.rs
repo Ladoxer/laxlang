@@ -1,23 +1,19 @@
-#[derive(Debug, Clone)]
-pub enum Statement {
-    Expression(Expression),
-    Declaration(Declaration),
-    Block(Vec<Statement>),
+#[derive(Clone, Debug)]
+pub enum Decl {
+    RelaxFn(String, Vec<Param>, Block),
+    Fn(String, Vec<Param>, Type, Block),
 }
 
-#[derive(Debug, Clone)]
-pub enum Declaration {
-    RelaxFunction { name: String, params: Vec<String>, body: Vec<Statement> },
-    Function { name: String, params: Vec<String>, ret_type: String, body: Vec<Statement> },
-    // ...add more as you create features
+#[derive(Clone, Debug)]
+pub enum Expr {
+    FlowChain(String, Vec<Param>, Vec<FlowOp>, Vec<Handler>),
+    Call(Box<Expr>, Vec<Expr>),
+    Ident(String),
+    // …
 }
 
-#[derive(Debug, Clone)]
-pub enum Expression {
-    Identifier(String),
-    Literal(Literal),
-    Call { callee: Box<Expression>, args: Vec<Expression> },
-    FlowChain(FlowChain),
-    StackGuard(StackGuard),
-    // ...
+#[derive(Clone, Debug)]
+pub enum FlowOp {
+    Bind(Box<Expr>, String),
+    Map(Box<Expr>, Box<Expr>),
 }

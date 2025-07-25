@@ -1,10 +1,11 @@
 import * as vscode from 'vscode';
-
-export function activate(context: vscode.ExtensionContext) {
-    let disposable = vscode.commands.registerCommand('laxlang.helloWorld', () => {
-        vscode.window.showInformationMessage('Hello from LaxLang!');
-    });
-    context.subscriptions.push(disposable);
+import { spawn } from 'child_process';
+export function activate(ctx: vscode.ExtensionContext) {
+    ctx.subscriptions.push(
+        vscode.commands.registerCommand('laxlang.compile', () => {
+            const f = vscode.window.activeTextEditor?.document.uri.fsPath;
+            if (f) spawn('laxlang', [f], { stdio: 'inherit' });
+        })
+    );
 }
-
 export function deactivate() {}
